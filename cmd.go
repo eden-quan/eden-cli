@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/eden/eden-cli/cmd"
+	"github.com/eden-quan/eden-cli/cmd"
 )
 
 func createCmd() *cobra.Command {

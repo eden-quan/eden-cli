@@ -6,7 +6,7 @@ import (
 	errorv1 "{{.PackageName}}/api/common/v1/errors"
 	repos "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/repo"
 
-	errorpkg "github.com/eden/go-kratos-pkg/error"
+	errorpkg "github.com/eden-quan/go-kratos-pkg/error"
 
 	stdhttp "net/http"
 )

@@ -15,7 +15,7 @@ TODO: 补充项目说明
 
 ## 安装依赖工具
 
-Eden 相关的项目都将使用 [eden-cli](https://github.com/eden/eden-cli) 进行管理，该工具将为后端的项目提供统一的目录结构管理 / 服务维护 / 代码生成 / 运行程序 等基础能力.
+Eden 相关的项目都将使用 [eden-cli](https://github.com/eden-quan/eden-cli) 进行管理，该工具将为后端的项目提供统一的目录结构管理 / 服务维护 / 代码生成 / 运行程序 等基础能力.
 鉴于各种网络 / Git 配置 / Go 私有仓库等原因，在运行任何项目前，请先完成如下配置
 
 ```shell
@@ -117,21 +117,21 @@ eden-cli run [service-name]
 
 由 Eden CLI 创建的项目主要依赖下列公共库，虽然日常开发中无需使用到这些内容，但可以通过了解下列公共库的实现来理解整个项目的运行机制
 
-- [Go Biz Kit](https://github.com/eden/go-biz-kit)
+- [Go Biz Kit](https://github.com/eden-quan/go-biz-kit)
   - 提供各种中间件的支持，如 MySQL、RabbitMQ、Tracing、Logging 等
   - 提供了通用的错误处理机制
   - 提供基于依赖注入的运行时支持
   - Web 及 Grpc 实现暂时通过 Kratos 实现 _(但开发人员不应对此做任何假设，因为后续可能会随时进行替换)_
-- [Go Kratos Pkg](https://github.com/eden/go-kratos-pkg)
+- [Go Kratos Pkg](https://github.com/eden-quan/go-kratos-pkg)
   - 封装历史包 - 后续替换
 - Tools
-  - [protoc-gen-go-http-fx](https://github.com/eden/protoc-gen-go-http-fx)
+  - [protoc-gen-go-http-fx](https://github.com/eden-quan/protoc-gen-go-http-fx)
     - 扩展 http 插件，提供更通用的服务注册 / Flatten 等能力
-  - [protoc-gen-go-grpc-fx](https://github.com/eden/protoc-gen-go-grpc-fx)
+  - [protoc-gen-go-grpc-fx](https://github.com/eden-quan/protoc-gen-go-grpc-fx)
     - 扩展 grpc 插件，提供更通用的服务注册 / Flatten 等能力
-  - [protoc-gen-go-errors-fx](https://github.com/eden/protoc-gen-go-errors-fx)
+  - [protoc-gen-go-errors-fx](https://github.com/eden-quan/protoc-gen-go-errors-fx)
     - 扩展 errors 插件，提供结合 `BusinessKit` 提供通用的错误处理能力
-  - [protoc-gen-openapi-fx](https://github.com/eden/protoc-gen-openapi-fx) / [grpc-gateway](https://github.com/eden/grpc-gateway)
+  - [protoc-gen-openapi-fx](https://github.com/eden-quan/protoc-gen-openapi-fx) / [grpc-gateway](https://github.com/eden-quan/grpc-gateway)
     - 扩展 openapi 插件，提供与其他组件匹配的文档生成能力
-  - [protobuf](https://github.com/eden/protobuf)
+  - [protobuf](https://github.com/eden-quan/protobuf)
     - 对 proto-go 插件进行扩展, 提供 Flatten 等能力

@@ -1,4 +1,4 @@
-module github.com/eden/eden-cli
+module github.com/eden-quan/eden-cli
 
 go 1.21.3
 

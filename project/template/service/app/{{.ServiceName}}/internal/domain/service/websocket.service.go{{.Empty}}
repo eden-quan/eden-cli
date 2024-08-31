@@ -10,8 +10,8 @@ import (
 	errorv1 "{{.PackageName}}/api/common/v1/errors"
 	repos "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/repo"
 
-	errorpkg "github.com/eden/go-kratos-pkg/error"
-	websocketpkg "github.com/eden/go-kratos-pkg/websocket"
+	errorpkg "github.com/eden-quan/go-kratos-pkg/error"
+	websocketpkg "github.com/eden-quan/go-kratos-pkg/websocket"
 )
 
 // websocketService ...

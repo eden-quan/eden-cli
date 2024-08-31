@@ -12,7 +12,7 @@ import (
 
 	"github.com/manifoldco/promptui"
 
-	"github.com/eden/eden-cli/project"
+	"github.com/eden-quan/eden-cli/project"
 )
 
 func chooseService(args []string, msg string) (service string, err error) {

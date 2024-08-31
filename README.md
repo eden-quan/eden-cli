@@ -8,7 +8,7 @@
 脚手架以 `go` 包的形式提供，可以通过如下方式安装
 
 ```shell
-go install github.com/eden/eden-cli@latest
+go install github.com/eden-quan/eden-cli@latest
 ```
 
 ## 使用示例

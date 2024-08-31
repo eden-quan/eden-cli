@@ -1,0 +1,13 @@
+# app 程序
+app:
+  # name 服务名称
+  name: all-in-one-service
+  version: v1.0.0
+  # env 开发环境；值：dev / test / uat / pre / prod
+  env: dev
+config_center:
+  endpoints:
+    - 127.0.0.1:2379
+  username:
+  password:
+  timeout: 10s

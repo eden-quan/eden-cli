@@ -1,0 +1,10 @@
+package inject
+
+import "{{.BusinessPackageName}}/injection"
+
+
+var injector = injection.NewInjector()
+
+func Injection() *injection.Injector {
+	return &injector
+}

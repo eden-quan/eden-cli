@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package eden.common;
+
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "{{.PackageName}}/api/common/v3/services;common_service";
+
+
+// 服务定义扩展信息，允许服务定义 name 字段用于声明服务名, 服务名将用于实现服务发现 / 自动配置等能力
+extend google.protobuf.ServiceOptions {
+  optional string service_name = 99999;
+}

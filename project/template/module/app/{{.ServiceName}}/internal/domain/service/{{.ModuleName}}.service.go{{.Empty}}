@@ -1,0 +1,28 @@
+package services
+
+import (
+    "context"
+
+    "{{.PackageName}}/app/{{.ServiceName}}/internal/inject"
+    "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/data"
+    repos "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/repo"
+)
+
+type {{.ModuleName}}Repo struct {
+	dao *data.{{.StructModuleName}}Dao
+}
+
+func New{{.StructModuleName}}Repo(dao *data.{{.StructModuleName}}Dao) repos.{{.StructModuleName}}Repo {
+
+	return &{{.ModuleName}}Repo{
+		dao: dao,
+	}
+}
+
+func (p *{{.ModuleName}}Repo) Hello(ctx context.Context) (*data.{{.StructModuleName}}Data, error) {
+	return p.dao.Query(ctx)
+}
+
+func init() {
+	inject.Injection().Inject(New{{.StructModuleName}}Repo)
+}

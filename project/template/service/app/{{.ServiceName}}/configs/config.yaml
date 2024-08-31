@@ -1,0 +1,15 @@
+# app 程序
+app:
+  # name 服务名称
+  name: {{.ServiceName}}
+  version: v1.0.0
+  # env 开发环境；值：dev / test / uat / pre / prod
+  env: dev
+config_center:
+  # 配置中心地址，默认开启测试环境的地址
+  endpoints:
+    - 172.27.39.223:2379
+#    - 127.0.0.1:2379
+  username:
+  password:
+  timeout: 10s

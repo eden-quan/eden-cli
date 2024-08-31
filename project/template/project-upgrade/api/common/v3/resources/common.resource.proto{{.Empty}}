@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package eden.common;
+
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "third_party/validate/validate.proto";
+
+option go_package = "{{.PackageName}}/api/common/v3/resources;common";
+
+message SortField {
+  string field = 1;   // field 为需要排序的字段，具体的含义由接口定义，一般为排序的字段名
+  bool desc = 2;      // desc 为 True 时说明为倒序，否则为正序
+}
+
+message Paging {
+  int32 page = 1;              // Page 为本次所需的页码
+  int32 page_size = 2;         // PageSize 为每页所需数据的数量
+  int64 count = 3;             // count 为符合查询条件的数据量
+  bool has_next = 4;           // has_next 表示是否存在下一页
+  repeated SortField sort = 5; // sort 为本次查询的排序条件
+  bool need_count = 6;         // need_count 表示是否需要统计总数
+}
+
+message Result {
+  // code 为本次接口的调用结果，后续将使用统一的 StatusCode 管理所有状态码, 当前版本的 code 将统一从 StatusCode 的 Number 获取
+  int32 code      = 9001 [(validate.rules).int32.gte = 0];
+  string reason   = 9002;        // reason 为 code 对应的英文编码，可用于快速定位问题
+  string message  = 9003;        // message 为接口调用出错时的具体错误信息
+  string identity = 9004;        // identity 为本次调用的通用结果，如某些接口调用后只需返回一个 Id 或标识符，则可使用该字段携带信息
+  string trace_id = 9005;        // trace_id 为本次调用的链路 Id，可用于整合所有本次调用相关的线索
+  string error_chain = 9006;     // error_chain 如果错误经过了多层业务的封装，则可以从该字段得到每一层的错误信息
+  // map<string, string> meta_data = 9007; // meta_data 为附加的元数据，可用于在发生错误时提供更详细的信息
+}
+
+message DBModel {
+  int32 id = 10001; // 主键 #db:"id"
+  bool is_deleted = 10002; // 是否已删除 #db:"is_deleted"
+  google.protobuf.Timestamp create_time = 10003; // 创建时间 #"db:"create_time"
+  google.protobuf.Timestamp update_time = 10004; // 更新时间 #"db:"update_time"
+}
+
+// Flatten 扩展，用于支持自动将通用类型平铺到返回结果中，如可将 Result 平铺到其他业务返回结果，
+// 保证所有返回结构都具有统一的状态码结构
+extend google.protobuf.FieldOptions {
+  optional FlattenRules flatten_rule = 1423;
+  optional bool flatten = 1424;
+}
+
+message FlattenRules {
+  optional Reserved reserved = 1;
+}
+
+message Reserved {
+  optional int32 min = 1;
+  optional int32 max = 2;
+}

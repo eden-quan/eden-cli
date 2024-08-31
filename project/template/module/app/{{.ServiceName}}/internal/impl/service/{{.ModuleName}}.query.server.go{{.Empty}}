@@ -1,0 +1,47 @@
+package serves
+
+import (
+    "context"
+
+    "github.com/go-kratos/kratos/v2/log"
+
+    "{{.PackageName}}/app/{{.ServiceName}}/internal/inject"
+
+	{{.ServiceShortName}}service{{.Version}} "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/services"
+)
+
+// {{.ModuleName}}SQLQuery 数据库插件实现示例, 如果
+// 该类型的构造参数均由依赖注入框架提供
+type {{.ModuleName}}SQLQuery struct {
+    // 导入默认实现，默认实现会在调用对应的接口时返回 NotImplement 错误
+   {{.ServiceShortName}}service{{.Version}}.Unimplemented{{.StructModuleName}}{{.StructVersion}}SQLQueryServer
+	log        *log.Helper                     // log 为日志处理示例
+}
+
+// New{{.StructModuleName}}SQLQueryServer 创建一个新的 {{.StructModuleName}}SQLQueryServer 实例，
+// 将该函数注册到依赖注入矿建后，该函数参数中定义的类型，会由依赖注入框架提供
+func New{{.StructModuleName}}SQLQueryServer(logger log.Logger) ({{.ServiceShortName}}service{{.Version}}.{{.StructModuleName}}{{.StructVersion}}SQLQueryServer, error) {
+	q := &{{.ModuleName}}SQLQuery {
+	    log: log.NewHelper(logger),
+	}
+
+	// 注册 Inject 类型的处理函数，这样服务在收到请求时会按照 SQL 插件中定义的顺序来调用该处理函数
+	{{.ServiceShortName}}service{{.Version}}.Register{{.StructModuleName}}{{.StructVersion}}SQLQueryChainSQLActionInjectMethodAdjustName(q.InjectFunc)
+	return q, nil
+}
+
+// InjectFunc 为注入函数的示例，从参数中可以获取对应的上下文，本次请求的参数及返回值，注入函数可以对这些信息进行修改及调整
+func (q *{{.ModuleName}}SQLQuery) InjectFunc(ctx context.Context, arg *{{.ServiceShortName}}service{{.Version}}.{{.StructModuleName}}{{.StructVersion}}SQLQueryChainSQLActionInjectArg) (context.Context, error) {
+	q.log.Warn(arg.Resp)
+	q.log.Warn(ctx)
+	return ctx, nil
+}
+
+func init() {
+    // 注册服务的处理器，即本示例中的 {{.ModuleName}}SQLQuery, 用于提供 HTTP 服务
+	annoHttp := {{.ServiceShortName}}service{{.Version}}.Register{{.StructModuleName}}{{.StructVersion}}SQLQueryServerHTTPProvider(New{{.StructModuleName}}SQLQueryServer)
+	// 注册 SQL 插件生成的逻辑到依赖注入框架
+	annoSql := {{.ServiceShortName}}service{{.Version}}.Register{{.StructModuleName}}{{.StructVersion}}SQLQuerySQLAction()
+
+	inject.Injection().InjectMany(annoHttp, annoSql)
+}

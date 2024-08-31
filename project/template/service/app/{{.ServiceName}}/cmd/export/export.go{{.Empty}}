@@ -1,0 +1,22 @@
+package export
+
+import (
+	"{{.BusinessPackageName}}/injection"
+	config "{{.BusinessPackageName}}/config/inject"
+	servers "{{.BusinessPackageName}}/server/inject"
+	setup "{{.BusinessPackageName}}/setup/inject"
+
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/domain"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/impl/service"
+    "{{.PackageName}}/app/{{.ServiceName}}/internal/inject"
+)
+
+func InjectBuiltIn() *injection.Injector {
+    injector := inject.Injection()
+
+	config.InjectIns(injector)
+	setup.InjectIns(injector)
+	servers.InjectIns(injector)
+
+	return injector
+}

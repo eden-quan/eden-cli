@@ -1,0 +1,5 @@
+syntax="proto3";
+
+package {{.ServiceShortName}}.config.{{.Version}};
+
+option go_package="{{.PackageName}}/app/{{.ServiceName}}/internal/conf;conf";

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package api.{{.ServiceShortName}}.service.{{.ModuleName}}service{{.Version}};
+
+// 多语言特定包名，用于源代码引用
+option go_package = "{{.PackageName}}/api/{{.ServiceName}}/v1/services;{{.ServiceShortName}}service{{.Version}}";
+
+import "google/api/annotations.proto";
+import "api/common/v3/services/common.services.proto";
+import "api/{{.ServiceName}}/{{.Version}}/resources/{{.ServiceShortName}}.{{.ModuleName}}.resource.{{.Version}}.proto";
+import "google/protobuf/descriptor.proto";
+
+
+// {{.StructModuleName}}{{.StructVersion}} 示例服务
+service {{.StructModuleName}}{{.StructVersion}} {
+
+  option (eden.common.service_name) = "{{.ServiceName}}/{{.Version}}";
+
+
+  // 测试 http 接口
+  rpc Ping({{.ModuleName}}{{.Version}}.{{.StructModuleName}}PingReq) returns ({{.ModuleName}}{{.Version}}.{{.StructModuleName}}PingResp) {
+    option (google.api.http) = {
+      post: "/api/v1/{{.ModuleName}}{{.Version}}/ping/{message}",
+      body: "*"
+    };
+  }
+
+  // 测试 grpc 接口
+  rpc Pong({{.ModuleName}}{{.Version}}.{{.StructModuleName}}PingReq) returns ({{.ModuleName}}{{.Version}}.{{.StructModuleName}}PingResp);
+
+  // 消息队列 - 消费消息示例
+  rpc ConsumeMessage({{.ModuleName}}{{.Version}}.{{.StructModuleName}}ConsumeReq) returns ({{.ModuleName}}{{.Version}}.{{.StructModuleName}}ConsumeResp) {
+    option (google.api.http) = {
+        post: "/api/v1/{{.ModuleName}}{{.Version}}/consume",
+        body: "*"
+    };
+  }
+
+  // 消息队列 - 发布消息示例
+  rpc PublishMessage({{.ModuleName}}{{.Version}}.{{.StructModuleName}}PublishReq) returns ({{.ModuleName}}{{.Version}}.{{.StructModuleName}}PublishResp) {
+    option (google.api.http) = {
+      post: "/api/v1/{{.ModuleName}}{{.Version}}/publish",
+      body: "*"
+    };
+  }
+}

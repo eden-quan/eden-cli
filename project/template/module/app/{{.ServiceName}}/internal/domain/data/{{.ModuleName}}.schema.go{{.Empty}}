@@ -1,0 +1,5 @@
+package data
+
+type {{.StructModuleName}}Data struct {
+	Name string `json:"name" db:"name"`
+}

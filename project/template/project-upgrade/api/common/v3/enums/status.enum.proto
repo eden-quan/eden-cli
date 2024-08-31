@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package eden.common.status;
+
+option go_package = "{{.PackageName}}/api/common/v3/enums;common";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.EnumValueOptions {
+  string description = 99999999;
+}
+
+message StatusCodeEnum {
+  enum StatusCode {
+    STATUS_CODE_UNSPECIFIED = 0;
+  }
+}

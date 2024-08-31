@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package api.{{.ServiceShortName}}.service.{{.ModuleName}}{{.Version}};
+
+// 多语言特定包名，用于源代码引用
+option go_package = "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/resources;{{.ServiceShortName}}{{.Version}}";
+
+import "google/api/field_behavior.proto";
+import "third_party/validate/validate.proto";
+import "api/common/v3/resources/common.resource.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+// 测试请求参数
+message {{.StructModuleName}}PingReq {
+
+  // Message {{.StructModuleName}}Req 验证失败时会以 10010002 的错误码及 500 的 Http 状态码返回
+  option (validate.msg_error) = {
+    biz_code: 10010002,
+    http_code: 500
+  };
+
+
+  // message 请求消息, 该字段添加了自定义校验，因此在业务逻辑收到请求时，该字段能够减少业务逻辑的参数校验代码及确保参数的有效性
+  string message = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (validate.rules).string = {
+      min_len: 6,     // message 的长度最少为 6
+      prefix: "msg_",  // message 必须以 msg_ 开头
+    }
+  ];
+}
+
+// 测试响应定义
+message {{.StructModuleName}}PingResp {
+  eden.common.Result result = 1 [(eden.common.flatten) = true];
+  string data = 2;
+
+  // 嵌套字段测试, 用于测试自定义 Proto 插件对嵌套类型的支持
+  message A {
+    string a = 1; // 嵌套字段说明
+  }
+
+  A a = 3; // a 为嵌套的类型定义 #my_tag:"a"
+
+  // 复杂 Map 类型测试，用于测试自定义 Proto 插件对复杂 Map 类型的支持
+  map<string, A> my_map = 4;
+}
+
+
+// 测试消费消息队列
+message {{.StructModuleName}}ConsumeReq {
+    int32 n = 1 [
+        (google.api.field_behavior) = REQUIRED,
+        (validate.rules).int32 = {
+            not_in: [11, 22, 33],
+            lt: 10
+        }
+    ];
+}
+
+// 测试消费消息的响应
+message {{.StructModuleName}}ConsumeResp {
+    eden.common.Result result = 1 [(eden.common.flatten) = true];
+    int32 n = 2; // 成功消费的消息数
+}
+
+
+// 测试发布消息到消息队列
+message {{.StructModuleName}}PublishReq {
+    int32 n = 1 [(google.api.field_behavior) = REQUIRED];
+    string msg = 2; // 需要发送的消息内容
+}
+
+message {{.StructModuleName}}PublishResp {
+    eden.common.Result result = 1 [(eden.common.flatten) = true];
+    int32 n = 2; // 成功发布的消息数
+}

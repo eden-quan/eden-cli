@@ -60,30 +60,37 @@ func New{{.StructModuleName}}Server(arg New{{.StructModuleName}}Args) ({{.Servic
 	// client, err := arg.Http{{.StructModuleName}}ClientFactory.New(&def.Server{})
 	// helper.Warn(err) // err occur cause we don't provide the Http Config
 
-    // 根据配置中心的消息队列配置获取 Consumer
-	con, err := arg.MQ.Get().Consumer(
-		message.NewConsumerConfig(
-			&arg.Conf.DemoQueue,    // 获取配置中心的队列配置
-			&arg.Conf.DemoConsumer, // 获取配置中心的消费者配置
-		),
-	)
+    var pro message.Producer = nil
+    var con message.Consumer = nil
+    var err error = nil
 
-	if err != nil {
-		helper.Infof("con(%s): %s\n", con, err)
-		return nil, err
-	}
+    // 只有开启了 MQ 配置，才会尝试创建消费者及生产者
+    if arg.MQ.Get() != nil {
+        // 根据配置中心的消息队列配置获取 Consumer
+        con, err = arg.MQ.Get().Consumer(
+            message.NewConsumerConfig(
+                &arg.Conf.DemoQueue,    // 获取配置中心的队列配置
+                &arg.Conf.DemoConsumer, // 获取配置中心的消费者配置
+            ),
+        )
 
-	// 根据配置中心的消息队列的 Exchange 及 Queue 创建一个生产者
-	pro, err := arg.MQ.Get().Producer(
-		message.NewProducerConfig(
-			&arg.Conf.DemoExchange, // 获取配置中心的交换机配置
-			&arg.Conf.DemoQueue,    // 获取配置中心的队列配置
-		),
-	)
+        if err != nil {
+            helper.Infof("con(%s): %s\n", con, err)
+            return nil, err
+        }
 
-	if err != nil {
-		helper.Error(err)
-		return nil, err
+        // 根据配置中心的消息队列的 Exchange 及 Queue 创建一个生产者
+        pro, err = arg.MQ.Get().Producer(
+            message.NewProducerConfig(
+                &arg.Conf.DemoExchange, // 获取配置中心的交换机配置
+                &arg.Conf.DemoQueue,    // 获取配置中心的队列配置
+            ),
+        )
+
+        if err != nil {
+            helper.Error(err)
+            return nil, err
+        }
 	}
 
 	return &{{.ModuleName}}{

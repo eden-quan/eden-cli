@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api.{{.ServiceShortName}}.service.{{.ModuleName}}error{{.Version}};
+
+import "errors/errors.proto";
+
+// 多语言特定包名，用于源代码引用
+option go_package = "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/errors;{{.ServiceShortName}}error{{.Version}}";
+
+
+// ERROR .
+enum {{.StructModuleUpperName}}_ERROR {
+  option (errors.default_code) = 500;
+
+  {{.StructModuleUpperName}}_UNKNOWN = 0 [ (errors.code) = 404 ];
+  {{.StructModuleUpperName}}_CONTENT_MISSING = 100000001 [ (errors.code) = 400 ];
+  {{.StructModuleUpperName}}_CONTENT_ERROR = 100000002 [ (errors.code) = 400 ];
+}

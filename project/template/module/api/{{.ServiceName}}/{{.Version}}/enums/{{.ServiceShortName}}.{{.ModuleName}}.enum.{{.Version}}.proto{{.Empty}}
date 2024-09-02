@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.{{.ServiceShortName}}.service.{{.ModuleName}}enum{{.Version}};
+
+option go_package = "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/enums;{{.ServiceShortName}}enum{{.Version}}";
+
+// {{.StructServiceName}}InitEnum enum
+message {{.StructModuleName}}InitEnum {
+  // PingInit enum
+  enum {{.StructModuleName}}Init {
+    // UNSPECIFIED 未指定
+    UNSPECIFIED = 0;
+  }
+}

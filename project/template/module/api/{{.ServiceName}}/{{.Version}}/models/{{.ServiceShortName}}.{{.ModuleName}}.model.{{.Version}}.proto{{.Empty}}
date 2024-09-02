@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package api.{{.ServiceShortName}}.service.{{.ModuleName}}model{{.Version}};
+
+import "api/common/v3/resources/common.resource.proto";
+
+// 多语言特定包名，用于源代码引用
+option go_package = "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/models;{{.ServiceShortName}}model{{.Version}}";
+
+message {{.StructModuleName}}DemoModel {
+    string name = 1;  // 测试字段, 通过后面模板可为字段增加自定义 tag, #db:"name"
+    int32 age = 2;    // 测试字段, #db:"age"
+    // 嵌入的 model 字段提供生成数据库基本字段的能力
+    eden.common.DBModel model = 99 [(eden.common.flatten) = true];
+}

@@ -1,0 +1,27 @@
+package data
+
+import (
+	"context"
+
+	kit "{{.BusinessPackageName}}"
+    "{{.PackageName}}/app/{{.ServiceName}}/internal/inject"
+
+)
+
+type {{.StructModuleName}}Dao struct {
+	db kit.MySQL
+}
+
+func New{{.StructModuleName}}Dao(db kit.MySQL) *{{.StructModuleName}}Dao {
+	return &{{.StructModuleName}}Dao{db: db}
+}
+
+func (p *{{.StructModuleName}}Dao) Query(ctx context.Context) (*{{.StructModuleName}}Data, error) {
+	data := &{{.StructModuleName}}Data{}
+	err := p.db.Get().GetContext(ctx, data, `SELECT 'hello world' as name;`)
+	return data, err
+}
+
+func init() {
+	inject.Injection().Inject(New{{.StructModuleName}}Dao)
+}

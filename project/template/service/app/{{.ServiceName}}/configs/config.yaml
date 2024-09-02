@@ -1,0 +1,16 @@
+# app 程序
+app:
+  # name 服务名称
+  name: {{.ServiceName}}
+  version: v1.0.0
+  # env 开发环境；值：dev / test / uat / pre / prod
+  env: dev
+config_center:
+  # 如果不希望使用配置中心，则可在此处配置本地文件, 具体格式可见模板, TODO: 待实现
+  local_file: ""
+  # 配置中心地址，默认开启测试环境的地址
+  endpoints:
+    - 127.0.0.1:2379
+  username:
+  password:
+  timeout: 10s

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package eden.common.error;
+
+import "errors/errors.proto";
+
+// 多语言特定包名，用于源代码引用
+option go_package = "{{.PackageName}}/api/common/v3/errors;errors";
+
+// ERROR .
+enum ERROR {
+  option (errors.default_code) = 200;
+
+  ERROR_UNSPECIFIED = 0;
+  BAD_REQUEST = 10000001 [(errors.code) = 400];  // 参数校验错误
+  UNKNOWN = 10000002 [(errors.code) = 404];      // 未处理错误
+  UNAUTHORIZED = 10010003 [(errors.code) = 401]; // 认证错误
+
+  CONTENT_MISSING = 100000001 [ (errors.code) = 400 ]; // oh missing
+  CONTENT_ERROR = 100000002 [ (errors.code) = 401 ];   // oh error
+
+  QUERY_DEST = 10020001 [(errors.code) = 500];           // query db error from sql-fx plugin
+  QUERY_NOT_IMPLEMENT = 10020002 [(errors.code) = 500];  // query db's injection is not implemented
+  QUERY_ARGS_NOT_FOUND = 10020003 [(errors.code) = 500]; // query args not found
+}

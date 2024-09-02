@@ -1,0 +1,19 @@
+package main
+
+import (
+
+    "{{.BusinessPackageName}}/injection"
+
+	"{{.PackageName}}/app/{{.ServiceName}}/cmd/export"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/conf"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/domain"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/impl/service"
+
+)
+
+func main() {
+    injector := export.InjectBuiltIn()
+	injector.DoIt(
+		injection.WithGraph("./dep.dot"),
+	)
+}

@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package api.{{.ServiceShortName}}.service.{{.ModuleName}}service{{.Version}};
+
+// 多语言特定包名，用于源代码引用
+option go_package = "{{.PackageName}}/api/{{.ServiceName}}/v1/services;{{.ServiceShortName}}service{{.Version}}";
+
+import "google/api/annotations.proto";
+import "api/common/v3/services/common.query.proto";
+import "api/common/v3/services/common.services.proto";
+import "api/common/v3/resources/common.resource.proto";
+import "google/protobuf/descriptor.proto";
+
+
+message {{.StructModuleName}}{{.StructVersion}}SimpleQueryArg {
+  int32 id = 1;
+  string age = 2;
+}
+
+message {{.StructModuleName}}{{.StructVersion}}SimpleQueryResp {
+  message Data {
+    repeated string names = 1;
+  }
+
+  Data data = 1;
+  eden.common.Result result = 2 [(eden.common.flatten) = true];
+}
+
+
+message {{.StructModuleName}}{{.StructVersion}}ChainQueryArgs {
+  message Data {
+    optional string id = 1;
+    optional int32 age = 2;
+  }
+
+  Data data = 1;
+  string name = 2; // name need insert
+  int32 insert_age = 3;  // age need insert
+  string insert_name = 4;
+}
+
+message {{.StructModuleName}}{{.StructVersion}}ChainQueryResp {
+  message DataListItem {
+    string name = 1;
+    int32 age = 2;
+  }
+  message Data {
+    repeated DataListItem list = 4;
+    repeated string names = 1;
+    repeated int32 ages = 2;
+    int32 effect_count = 3;
+  }
+
+  Data data = 1;
+  int32 new_age = 2;
+}
+
+
+// {{.StructModuleName}}{{.StructVersion}} 示例服务
+service {{.StructModuleName}}{{.StructVersion}}SQLQuery {
+
+  option (eden.common.service_name) = "{{.ServiceName}}/{{.Version}}";
+
+  // 数据库查询示例
+  rpc Simple({{.StructModuleName}}{{.StructVersion}}SimpleQueryArg) returns ({{.StructModuleName}}{{.StructVersion}}SimpleQueryResp) {
+    option (google.api.http) = {
+      post: "/api/v1/{{.ModuleName}}{{.Version}}/sql/simple",
+      body: "*"
+    };
+
+    // 最简单的数据库查询示例，调用该接口时会根据参数配置进行数据库查询，并将加入填入返回值
+    option (eden.common.crud).query = {
+      query: "SELECT name FROM table1 WHERE id = :id AND age > :age"
+      type: Select, // 说明本次的查询结构是一个列表
+      args: [
+        {name: "age", from_arg: "age"}, // 这里表示 SQL 中所需的参数 id 跟 age 需要从接口的参数中获取
+        {name: "id", from_arg: "id"}    // 当参数是一个复杂的嵌套结构体时， from_arg 可以是一个完整的路径，如 data.args.info.age
+      ],
+      resp: [
+        // 这里 from_query 的 name 说明是从查询结果中获取 name 字段，然后填充到
+        // 返回结果的 data.names 中
+        {from_query: "name", to_resp: "data.names"}
+      ]
+    };
+  }
+
+
+
+  // 数据库查询示例 - 完整版
+  rpc Chain({{.StructModuleName}}{{.StructVersion}}ChainQueryArgs) returns ({{.StructModuleName}}{{.StructVersion}}ChainQueryResp) {
+    option (google.api.http) = {
+        post: "/api/v1/{{.ModuleName}}{{.Version}}/sql/chain",
+        body: "*"
+    };
+
+
+      // chain 类型会用来定义一系列的查询，查询会根据定义一步一步执行，查询中的所有步骤都会
+      // 使用同一个事务，因此查询过于复杂的情况下可能会导致事务执行失败
+      option (eden.common.chain) = {
+        query: [
+          { // 第一个示例是 Simple 的完整版，他说明了数据库的查询结果可以填充到多个地方
+            type: Select,
+            query: "SELECT name, age from table1 WHERE name LIKE :old_name LIMIT 1",
+            args: [{name:"old_name", from_arg: "name"}], // SQL 中的 old_name 参数会从请求参数的 name 字段中获取
+            resp: [
+              {from_query: "age", to_resp:"data.ages"}, // 查询的 age 字段会填充到 data.ages 列表中
+              {from_query: "name", to_resp: "data.names"}, // 查询中的 name 字段会填充到 data.names 列表中
+              {from_query: "*", to_resp: "data.list"},     // 查询中的所有字段会填充到 data.list 结构体中
+              {from_query: "age", to_context: "total", type: "int32"} // 查询中的 age 字段会以 total 作为 key 填充到 context 中
+            ]
+          },
+          { // 第二个示例为插入数据库操作，该配置从参数中获取数据后插入数据库，并将插入的结果记录到接口返回值的指定字段中
+            type: Insert,
+            query: "INSERT INTO table1(id, age) VALUES (:id, :age)"
+            args: [{from_arg: "data"}], // 从接口参数 data 中获取数据作为插入数据库的参数
+            resp: [{to_resp: "data.effect_count"}] // 将插入成功的条数写入到 data.effect_count 字段中
+          },
+          {
+            type: Update, // Update 示例跟 Insert 示例基本一样
+            query: "UPDATE table1 SET name = :name, update_time = NOW() WHERE name=:names"
+            args: [
+              {name: "new_name", from_context: "name", type: "string"},
+              {name: "names", from_arg: "insert_name"}
+            ]
+            resp: [
+              {to_resp: "data.effect_count"},
+              {to_context: "effect_count"}
+            ]
+          },
+          { // Inject 类型用于生成注入函数，SQL 插件会使用 inject_name 生成一个可注册到依赖注入运行时的函数，
+            // 实现该函数并注入到框架中，即可在查询的步骤中实现自定义的逻辑，如为 Context 添加信息, 修改参数及返回值信息等
+            type: Inject,
+            inject_name: "adjust_name"
+          },
+          { // SelectOne 与 Select 相同，但他只处理单个返回结果，因此用于保存查询结果的字段不能是列表
+            type: SelectOne,
+            query: "SELECT age FROM table1 WHERE name=:names LIMIT 1",
+            args: [{name:"names", from_arg: "insert_name"}]
+            resp: [
+              {from_query: "age", to_resp: "new_age"},
+              {from_query: "age", to_context: "ctx_age", type: "int32"}
+            ]
+          }
+        ]
+      };
+    }
+}

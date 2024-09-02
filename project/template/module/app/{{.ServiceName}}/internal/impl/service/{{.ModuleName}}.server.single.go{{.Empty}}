@@ -1,0 +1,25 @@
+package serves
+
+import (
+	"sync"
+	"fmt"
+
+	{{.ServiceShortName}}service{{.Version}} "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/services"
+)
+
+var _single{{.StructModuleName}} struct {
+	{{.ModuleName}} {{.ServiceShortName}}service{{.Version}}.{{.StructModuleName}}{{.StructVersion}}Server
+	lock sync.Once
+}
+
+func NewSingleton{{.StructModuleName}}Server(arg New{{.StructModuleName}}Args) {{.ServiceShortName}}service{{.Version}}.{{.StructModuleName}}{{.StructVersion}}Server {
+	_single{{.StructModuleName}}.lock.Do(func() {
+	    var err error
+		_single{{.StructModuleName}}.{{.ModuleName}}, err = New{{.StructModuleName}}Server(arg)
+		if err != nil {
+		    panic(fmt.Sprintf("create {{.StructModuleName}}.{{.ModuleName}} with error %s", err))
+		}
+	})
+
+	return _single{{.StructModuleName}}.{{.ModuleName}}
+}

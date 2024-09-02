@@ -1,0 +1,11 @@
+package repos
+
+import (
+    "context"
+
+    "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/data"
+)
+
+type {{.StructModuleName}}Repo interface {
+	Hello(ctx context.Context) (*data.{{.StructModuleName}}Data, error)
+}

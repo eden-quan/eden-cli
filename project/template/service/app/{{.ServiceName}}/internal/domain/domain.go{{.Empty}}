@@ -1,0 +1,8 @@
+package domain
+
+import (
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/data"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/event"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/repo"
+	_ "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/service"
+)

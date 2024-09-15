@@ -137,7 +137,8 @@ func CreateProject() (project.Project, error) {
 			Default: strings.Replace(proj.ProjectName, "-service", "", 1),
 		}
 		p, err = prompt.Run()
-		proj.ModuleName = p
+		proj.ModuleName = strings.ReplaceAll(p, "-", "")
+
 	}
 
 	proj.Prepare()
@@ -178,7 +179,8 @@ func InitialProject(project project.Project) {
 	cmdList := []*exec.Cmd{
 		exec.Command("mv", "gitignore", ".gitignore"),
 		exec.Command("make", "init"),
-		exec.Command("make", "proto-gen", fmt.Sprintf("service=%s", project.ServiceShortName)),
+		//exec.Command("make", "proto-gen", fmt.Sprintf("service=%s", project.ServiceShortName)),
+		exec.Command("make", "proto-gen", fmt.Sprintf("service=%s", project.ServiceName)),
 		exec.Command("goimports", "-w", "api"),
 		exec.Command("go", "mod", "tidy"),
 	}

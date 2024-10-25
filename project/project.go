@@ -69,6 +69,7 @@ func (p *Project) Prepare() {
 
 	// TODO: 将依赖库改为可配置，或是用户输入
 	if len(p.BusinessPackageName) == 0 {
+		//p.BusinessPackageName = "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
 		p.BusinessPackageName = "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
 	}
 

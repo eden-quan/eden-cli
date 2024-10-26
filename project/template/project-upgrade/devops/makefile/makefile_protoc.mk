@@ -1,5 +1,5 @@
 # generate proto file
-COMMON_PROTO=$(shell cd $(PROJECT_PATH) && find api/common -name "*.proto")
+COMMON_PROTO=$(shell cd $(PROJECT_PATH) && find api/{{.ServiceShortName}}-common -name "*.proto")
 API_PROTO=$(shell cd $(PROJECT_PATH) && find api/*$(service)* -name "*.proto")
 APP_PROTO=$(shell cd $(PROJECT_PATH) && find app/*$(service)* -name "*.proto")
 ALL_PROTO_FILES=$(API_PROTO) $(APP_PROTO) $(COMMON_PROTO)

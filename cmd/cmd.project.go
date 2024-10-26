@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -159,7 +160,8 @@ func UpgradeProject() (project.Project, error) {
 	}
 	p, err := prompt.Run()
 	proj.Version = p
-	proj.Prepare()
+	//proj.Prepare()
+	proj.PrepareUpgrade()
 
 	selectPrompt := promptui.Select{
 		Label: "are you sure for upgrade? it will overwrite all the basic file (excluded services)",
@@ -178,7 +180,7 @@ func InitialProject(project project.Project) {
 	cmdList := []*exec.Cmd{
 		exec.Command("mv", "gitignore", ".gitignore"),
 		exec.Command("make", "init"),
-		exec.Command("make", "proto-gen", fmt.Sprintf("service=%s", project.ServiceShortName)),
+		exec.Command("make", "proto-gen", fmt.Sprintf("service=%s", project.ServiceName)),
 		exec.Command("goimports", "-w", "api"),
 		exec.Command("go", "mod", "tidy"),
 	}
@@ -187,11 +189,14 @@ func InitialProject(project project.Project) {
 		cmd.Dir = project.BasePath
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
+		cmd.Env = append(cmd.Environ(), "GOLANG_PROTOBUF_REGISTRATION_CONFLICT=ignore")
+
 		err := cmd.Run()
 		if err != nil {
-			fmt.Printf("calling cmd %s with error %s", cmd.String(), err)
-			os.Exit(0)
+			fmt.Printf("--- calling cmd %s with error %s\n", cmd.String(), err)
+			//os.Exit(0)
 		}
+		time.Sleep(time.Second)
 	}
 }
 

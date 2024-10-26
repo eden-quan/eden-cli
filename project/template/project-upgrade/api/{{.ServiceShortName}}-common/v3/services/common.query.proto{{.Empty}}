@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package eden.common;
+package {{.ServiceShortName}}_common.common;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "{{.PackageName}}/api/common/v3/services;common_service";
+option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v3/services;common_services";
 
 
 message QueryTypeEnum {

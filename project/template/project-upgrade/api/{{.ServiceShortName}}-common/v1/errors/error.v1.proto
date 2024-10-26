@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.common.errorv1;
 
-option go_package = "{{.PackageName}}/api/common/v1/errors;errorv1";
+option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v1/errors;errorv1";
 
 import "errors/errors.proto";
 

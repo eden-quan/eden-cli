@@ -3,7 +3,7 @@ package serves
 import (
 	"github.com/go-kratos/kratos/v2/transport/http"
 
-	errorv1 "{{.PackageName}}/api/common/v1/errors"
+	errorv1 "{{.PackageName}}/api/{{.ServiceShortName}}-common/v1/errors"
 	repos "{{.PackageName}}/app/{{.ServiceName}}/internal/domain/repo"
 
 	errorpkg "gitlab.lainuoniao.cn/eden-quan/go-kratos-pkg/error"

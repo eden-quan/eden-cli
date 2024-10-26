@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.common.configv1;
 
-option go_package = "{{.PackageName}}/api/common/v1/config;configv1";
+option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v1/config;configv1";
 
 import "google/protobuf/duration.proto";
 

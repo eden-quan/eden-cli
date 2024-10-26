@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package eden.common.error;
+package {{.ServiceShortName}}_common.common.error;
 
 import "errors/errors.proto";
 
 // 多语言特定包名，用于源代码引用
-option go_package = "{{.PackageName}}/api/common/v3/errors;errors";
+option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v3/errors;errors";
 
 // ERROR .
 enum ERROR {

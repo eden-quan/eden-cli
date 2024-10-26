@@ -38,7 +38,7 @@ type Project struct {
 	PackageName           string // 完整报名，gitlab.lainuoniao.cn/eden-quan/{project-name}
 	ServiceName           string // 服务名 如 ping，最终会创建 ping-service
 	StructServiceName     string // 服务名，用于定义结构体，因此需要为驼峰型, 如 ping-service 会转换为 PingService
-	ServiceShortName      string // 服务名，缩减了 -service 部分, ping-service -> Ping
+	ServiceShortName      string // 服务名，缩减了 -service 部分, ping-service -> ping
 	ModuleName            string // 模块名，创建一个服务后，一个服务下可能会包含多个模块, 如 ping 服务下默认会有个 ping 模块
 	StructModuleName      string // 驼峰模块名，如 ping 转为 Ping
 	StructModuleUpperName string // 大写模块名
@@ -63,6 +63,11 @@ func (p *Project) CheckProjectName() {
 	if lastIndex == -1 || p.ProjectName[lastIndex:] != "-service" {
 		p.ProjectName += "-service"
 	}
+}
+
+func (p *Project) PrepareUpgrade() {
+	p.ServiceName = p.ProjectName
+	p.Prepare()
 }
 
 func (p *Project) Prepare() {

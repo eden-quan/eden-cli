@@ -6,7 +6,7 @@ package api.{{.ServiceShortName}}.service.{{.ModuleName}}service{{.Version}};
 option go_package = "{{.PackageName}}/api/{{.ServiceName}}/v1/services;{{.ServiceShortName}}service{{.Version}}";
 
 import "google/api/annotations.proto";
-import "api/common/v3/services/common.services.proto";
+import "api/{{.ServiceShortName}}-common/v3/services/common.services.proto";
 import "api/{{.ServiceName}}/{{.Version}}/resources/{{.ServiceShortName}}.{{.ModuleName}}.resource.{{.Version}}.proto";
 import "google/protobuf/descriptor.proto";
 
@@ -14,7 +14,7 @@ import "google/protobuf/descriptor.proto";
 // {{.StructModuleName}}{{.StructVersion}} 示例服务
 service {{.StructModuleName}}{{.StructVersion}} {
 
-  option (eden.common.service_name) = "{{.ServiceName}}/{{.Version}}";
+  option ({{.ServiceShortName}}_common.common.service_name) = "{{.ServiceName}}/{{.Version}}";
 
 
   // 测试 http 接口

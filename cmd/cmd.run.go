@@ -19,6 +19,7 @@ func CreateRunAndGen(root *cobra.Command) {
 			}
 
 			c := exec.Command("make", "run", fmt.Sprintf("service=%s", service))
+			c.Env = append(c.Environ(), "GOLANG_PROTOBUF_REGISTRATION_CONFLICT=ignore")
 			c.Stdout = os.Stdout
 			c.Stderr = os.Stderr
 

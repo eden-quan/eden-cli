@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package {{.ServiceShortName}}_common.common;
+package {{.ShortProjectName}}_common.common;
 
 
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/timestamp.proto";
 import "third_party/validate/validate.proto";
 
-option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v3/resources;common_resources";
+option go_package = "{{.PackageName}}/api/{{.ShortProjectName}}-common/v3/resources;common_resources";
 
 message SortField {
   string field = 1;   // field 为需要排序的字段，具体的含义由接口定义，一般为排序的字段名

@@ -33,6 +33,7 @@ type ServiceName struct {
 type Project struct {
 	BasePath              string // 构建目录
 	ProjectName           string // 项目名，some-service, 非 -service 结尾的会添加 -service 后缀 Version             string // 版本号，v1
+	ShortProjectName      string // 项目名的短写形式，如 some-service -> some, some-app-service = some_app
 	Version               string // 版本号
 	StructVersion         string // 驼峰版本号, 如会将 v1 转为 V1
 	PackageName           string // 完整报名，gitlab.lainuoniao.cn/eden-quan/{project-name}
@@ -77,6 +78,9 @@ func (p *Project) Prepare() {
 		//p.BusinessPackageName = "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
 		p.BusinessPackageName = "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
 	}
+
+	p.ShortProjectName = strings.ReplaceAll(p.ProjectName, "-service", "")
+	p.ShortProjectName = strings.ReplaceAll(p.ShortProjectName, "-", "")
 
 	p.ServiceShortName = strings.ReplaceAll(p.ServiceName, "-service", "")
 	p.ServiceShortName = strings.ReplaceAll(p.ServiceShortName, "-", "")

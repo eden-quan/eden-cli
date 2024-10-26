@@ -7,7 +7,7 @@ option go_package = "{{.PackageName}}/api/{{.ServiceName}}/{{.Version}}/resource
 
 import "google/api/field_behavior.proto";
 import "third_party/validate/validate.proto";
-import "api/{{.ServiceShortName}}-common/v3/resources/common.resource.proto";
+import "api/{{.ShortProjectName}}-common/v3/resources/common.resource.proto";
 
 // 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
 option (validate.file_error) = {
@@ -37,7 +37,7 @@ message {{.StructModuleName}}PingReq {
 
 // 测试响应定义
 message {{.StructModuleName}}PingResp {
-  {{.ServiceShortName}}_common.common.Result result = 1 [({{.ServiceShortName}}_common.common.flatten) = true];
+  {{.ShortProjectName}}_common.common.Result result = 1 [({{.ShortProjectName}}_common.common.flatten) = true];
   string data = 2;
 
   // 嵌套字段测试, 用于测试自定义 Proto 插件对嵌套类型的支持
@@ -65,7 +65,7 @@ message {{.StructModuleName}}ConsumeReq {
 
 // 测试消费消息的响应
 message {{.StructModuleName}}ConsumeResp {
-    {{.ServiceShortName}}_common.common.Result result = 1 [({{.ServiceShortName}}_common.common.flatten) = true];
+    {{.ShortProjectName}}_common.common.Result result = 1 [({{.ShortProjectName}}_common.common.flatten) = true];
     int32 n = 2; // 成功消费的消息数
 }
 
@@ -77,6 +77,6 @@ message {{.StructModuleName}}PublishReq {
 }
 
 message {{.StructModuleName}}PublishResp {
-    {{.ServiceShortName}}_common.common.Result result = 1 [({{.ServiceShortName}}_common.common.flatten) = true];
+    {{.ShortProjectName}}_common.common.Result result = 1 [({{.ShortProjectName}}_common.common.flatten) = true];
     int32 n = 2; // 成功发布的消息数
 }

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package {{.ServiceShortName}}_common.common.status;
+package {{.ShortProjectName}}_common.common.status;
 
-option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v3/enums;common_enums";
+option go_package = "{{.PackageName}}/api/{{.ShortProjectName}}-common/v3/enums;common_enums";
 
 import "google/protobuf/descriptor.proto";
 

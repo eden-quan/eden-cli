@@ -6,9 +6,9 @@ package api.{{.ServiceShortName}}.service.{{.ModuleName}}service{{.Version}};
 option go_package = "{{.PackageName}}/api/{{.ServiceName}}/v1/services;{{.ServiceShortName}}service{{.Version}}";
 
 import "google/api/annotations.proto";
-import "api/{{.ServiceShortName}}-common/v3/services/common.query.proto";
-import "api/{{.ServiceShortName}}-common/v3/services/common.services.proto";
-import "api/{{.ServiceShortName}}-common/v3/resources/common.resource.proto";
+import "api/{{.ShortProjectName}}-common/v3/services/common.query.proto";
+import "api/{{.ShortProjectName}}-common/v3/services/common.services.proto";
+import "api/{{.ShortProjectName}}-common/v3/resources/common.resource.proto";
 import "google/protobuf/descriptor.proto";
 
 
@@ -23,7 +23,7 @@ message {{.StructModuleName}}{{.StructVersion}}SimpleQueryResp {
   }
 
   Data data = 1;
-  {{.ServiceShortName}}_common.common.Result result = 2 [({{.ServiceShortName}}_common.common.flatten) = true];
+  {{.ShortProjectName}}_common.common.Result result = 2 [({{.ShortProjectName}}_common.common.flatten) = true];
 }
 
 
@@ -59,7 +59,7 @@ message {{.StructModuleName}}{{.StructVersion}}ChainQueryResp {
 // {{.StructModuleName}}{{.StructVersion}} 示例服务
 service {{.StructModuleName}}{{.StructVersion}}SQLQuery {
 
-  option ({{.ServiceShortName}}_common.common.service_name) = "{{.ServiceName}}/{{.Version}}";
+  option ({{.ShortProjectName}}_common.common.service_name) = "{{.ServiceName}}/{{.Version}}";
 
   // 数据库查询示例
   rpc Simple({{.StructModuleName}}{{.StructVersion}}SimpleQueryArg) returns ({{.StructModuleName}}{{.StructVersion}}SimpleQueryResp) {
@@ -69,7 +69,7 @@ service {{.StructModuleName}}{{.StructVersion}}SQLQuery {
     };
 
     // 最简单的数据库查询示例，调用该接口时会根据参数配置进行数据库查询，并将加入填入返回值
-    option ({{.ServiceShortName}}_common.common.crud).query = {
+    option ({{.ShortProjectName}}_common.common.crud).query = {
       query: "SELECT name FROM table1 WHERE id = :id AND age > :age"
       type: Select, // 说明本次的查询结构是一个列表
       args: [
@@ -96,7 +96,7 @@ service {{.StructModuleName}}{{.StructVersion}}SQLQuery {
 
       // chain 类型会用来定义一系列的查询，查询会根据定义一步一步执行，查询中的所有步骤都会
       // 使用同一个事务，因此查询过于复杂的情况下可能会导致事务执行失败
-      option ({{.ServiceShortName}}_common.common.chain) = {
+      option ({{.ShortProjectName}}_common.common.chain) = {
         query: [
           { // 第一个示例是 Simple 的完整版，他说明了数据库的查询结果可以填充到多个地方
             type: Select,

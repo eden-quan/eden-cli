@@ -93,6 +93,7 @@ func NewProject() (project.Project, error) {
 	line, _, _ := reader.ReadLine()
 	packageName := string(line)[7:]
 	proj.PackageName = strings.TrimSpace(packageName)
+	proj.CheckProjectName()
 	err = proj.ScanServices()
 
 	return proj, nil

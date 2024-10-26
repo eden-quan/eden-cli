@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package {{.ServiceShortName}}_common.common;
+package {{.ShortProjectName}}_common.common;
 
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "{{.PackageName}}/api/{{.ServiceShortName}}-common/v3/services;common_services";
+option go_package = "{{.PackageName}}/api/{{.ShortProjectName}}-common/v3/services;common_services";
 
 
 // 服务定义扩展信息，允许服务定义 name 字段用于声明服务名, 服务名将用于实现服务发现 / 自动配置等能力

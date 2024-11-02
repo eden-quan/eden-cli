@@ -1,8 +1,8 @@
 package main
 
-import main2 "gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/eden-cli"
+//import m "gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/eden-cli"
 
 func main() {
-	rootCmd := main2.createCmd()
+	rootCmd := createCmd()
 	_ = rootCmd.Execute()
 }

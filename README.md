@@ -8,7 +8,7 @@
 脚手架以 `go` 包的形式提供，可以通过如下方式安装
 
 ```shell
-go install gitlab.lainuoniao.cn/eden-quan/eden-cli@latest
+go install gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git@latest
 ```
 
 ## 使用示例

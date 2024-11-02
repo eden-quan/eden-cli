@@ -8,7 +8,7 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 
-	"gitlab.lainuoniao.cn/eden-quan/eden-cli/project"
+	"gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/project"
 )
 
 func CreateModuleCmd(root *cobra.Command) {

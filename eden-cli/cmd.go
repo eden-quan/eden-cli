@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/spf13/cobra"
 
-	"gitlab.lainuoniao.cn/eden-quan/eden-cli/cmd"
+	"gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/cmd"
 )
 
 func createCmd() *cobra.Command {

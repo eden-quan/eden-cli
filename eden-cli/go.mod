@@ -1,4 +1,4 @@
-module gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git
+module gitlab.lainuoniao.cn/rhinobird/backend/eden-cli
 
 go 1.21.3
 

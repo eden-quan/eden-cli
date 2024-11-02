@@ -6,8 +6,8 @@ require (
 	github.com/envoyproxy/protoc-gen-validate v1.0.2
 	github.com/go-kratos/kratos/v2 v2.7.2
 	github.com/gorilla/websocket v1.5.1
-	gitlab.lainuoniao.cn/eden-quan/go-biz-kit v0.0.4
-	gitlab.lainuoniao.cn/eden-quan/go-kratos-pkg v0.0.2
+	gitlab.lainuoniao.cn/rhinobird/backend/go-biz-kit.git v0.0.4
+	gitlab.lainuoniao.cn/rhinobird/backend/go-kratos-pkg.git v0.0.2
 	go.uber.org/fx v1.20.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20231120223509-83a465c0220f
 	google.golang.org/grpc v1.60.1

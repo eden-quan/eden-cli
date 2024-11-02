@@ -12,7 +12,7 @@ import (
 
 	"github.com/manifoldco/promptui"
 
-	"gitlab.lainuoniao.cn/eden-quan/eden-cli/project"
+	"gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/project"
 )
 
 func chooseService(args []string, msg string) (service string, err error) {

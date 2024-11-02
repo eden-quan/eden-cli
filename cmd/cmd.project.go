@@ -12,7 +12,7 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 
-	"gitlab.lainuoniao.cn/eden-quan/eden-cli/project"
+	"gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/project"
 )
 
 func CreateProjCmd(root *cobra.Command) {
@@ -105,7 +105,7 @@ func CreateProject() (project.Project, error) {
 		// package name
 		prompt = promptui.Prompt{
 			Label:   "project package",
-			Default: fmt.Sprintf("gitlab.lainuoniao.cn/eden-quan/%s", proj.ProjectName),
+			Default: fmt.Sprintf("gitlab.lainuoniao.cn/rhinobird/backend/%s", proj.ProjectName),
 		}
 		p, err = prompt.Run()
 		proj.PackageName = strings.TrimSpace(p)
@@ -202,7 +202,7 @@ func InitialProject(project project.Project) {
 
 func UpgradeCli() {
 	cmdList := []*exec.Cmd{
-		exec.Command("go", "install", "gitlab.lainuoniao.cn/eden-quan/eden-cli@latest"),
+		exec.Command("go", "install", "gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git@latest"),
 	}
 
 	for _, cmd := range cmdList {

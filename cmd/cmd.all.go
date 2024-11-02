@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"gitlab.lainuoniao.cn/eden-quan/eden-cli/project"
+	"gitlab.lainuoniao.cn/rhinobird/backend/eden-cli.git/project"
 )
 
 func CreateAllInOneCmd(root *cobra.Command) {

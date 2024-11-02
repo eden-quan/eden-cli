@@ -1,4 +1,4 @@
-package main
+package eden_cli
 
 import "github.com/spf13/cobra"
 

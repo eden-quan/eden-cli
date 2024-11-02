@@ -36,7 +36,7 @@ type Project struct {
 	ShortProjectName      string // 项目名的短写形式，如 some-service -> some, some-app-service = some_app
 	Version               string // 版本号
 	StructVersion         string // 驼峰版本号, 如会将 v1 转为 V1
-	PackageName           string // 完整报名，gitlab.lainuoniao.cn/eden-quan/{project-name}
+	PackageName           string // 完整报名，gitlab.lainuoniao.cn/rhinobird/backend/{project-name}
 	ServiceName           string // 服务名 如 ping，最终会创建 ping-service
 	StructServiceName     string // 服务名，用于定义结构体，因此需要为驼峰型, 如 ping-service 会转换为 PingService
 	ServiceShortName      string // 服务名，缩减了 -service 部分, ping-service -> ping
@@ -45,7 +45,7 @@ type Project struct {
 	StructModuleUpperName string // 大写模块名
 	EmbedPath             string
 	FS                    *embed.FS
-	BusinessPackageName   string // business 包名 gitlab.lainuoniao.cn/eden-quan/go-biz-kit
+	BusinessPackageName   string // business 包名 gitlab.lainuoniao.cn/rhinobird/backend/go-biz-kit
 	OverwriteAll          int    // 文件重复时是否直接覆盖 0 为需要提问，1 为全部覆盖， 2 为全部不覆盖
 	Empty                 string // 空占位符
 	PlaceHolderIndex      int
@@ -75,8 +75,8 @@ func (p *Project) Prepare() {
 
 	// TODO: 将依赖库改为可配置，或是用户输入
 	if len(p.BusinessPackageName) == 0 {
-		//p.BusinessPackageName = "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
-		p.BusinessPackageName = "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
+		//p.BusinessPackageName = "gitlab.lainuoniao.cn/rhinobird/backend/go-biz-kit"
+		p.BusinessPackageName = "gitlab.lainuoniao.cn/rhinobird/backend/go-biz-kit.git"
 	}
 
 	p.ShortProjectName = strings.ReplaceAll(p.ProjectName, "-service", "")
